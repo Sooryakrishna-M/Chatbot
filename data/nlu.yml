@@ -3,26 +3,34 @@ version: "3.1"
 nlu:
 - intent: greet
   examples: |
-    - hey
-    - hello
     - hi
-    - hello there
+    - hello
+    - hey
     - good morning
     - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
 
-- intent: ask_about_crime
+- intent: goodbye
   examples: |
-    - What is the punishment for murder?
-    - Tell me about theft.
-    - What does IPC say about rape?
-    - What is the BNS clause for assault?
-    - Show me the crime section for kidnapping in IPC.
-    - How does BNS describe murder?
-    - What are the consequences of robbery?
+    - bye
+    - goodbye
+    - see you
+    - talk to you later
+
+- intent: compare_law_section
+  examples: |
+    - What has changed in section 375?
+    - Can you show me changes in section 34?
+    - Tell me about the changes in section [section_number]
+
+
+- intent: compare_law_section
+  examples: |
+    - What has changed in section 375?
+    - Can you show me changes in section 34?
+    - Tell me about the changes in section [section_number]
+
+intents:
+  - ask_comparison:
+      examples: |
+        - What is the comparison for section 375?
+        - Compare section 420 for me.

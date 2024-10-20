@@ -2,14 +2,38 @@ version: "3.1"
 
 intents:
   - greet
-  - ask_about_crime
+  - goodbye
+  - compare_law_section
+
+entities:
+  - section_number
+
+slots:
+  section_number:
+    type: text
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+    - text: "Hello! How can I assist you today?"
+  
+  utter_goodbye:
+    - text: "Goodbye! Have a great day!"
+
+  utter_ask_section:
+    - text: "Which section do you want to compare?"
+
+  utter_section_result:
+    - text: "Here is the comparison for section {section_number}: {comparison_result}"
+
+  utter_section_not_found:
+    - text: "Sorry, I could not find that section in the comparison."
 
 actions:
-  - action_search_crime
+  - action_compare_law
+slots:
+  section_number:
+    type: text
+    influence_conversation: false
 
 
 session_config:

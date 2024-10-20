@@ -1,12 +1,23 @@
 version: "3.1"
 
 stories:
-
-- story: happy path
+- story: greet and goodbye
   steps:
   - intent: greet
   - action: utter_greet
-- story: crime
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: ask for law section
   steps:
-  - intent: ask_about_crime
-  - action: action_search_crime
+  - intent: compare_law_section
+  - action: action_ask_section
+  - slot_was_set:
+    - section_number: null
+  - action: action_provide_comparison
+
+stories:
+  - story: compare law section
+    steps:
+      - intent: ask_comparison
+      - action: action_compare_law

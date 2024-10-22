@@ -23,11 +23,6 @@ nlu:
     - Tell me about the changes in section [section_number]
 
 
-- intent: compare_law_section
-  examples: |
-    - What has changed in section 375?
-    - Can you show me changes in section 34?
-    - Tell me about the changes in section [section_number]
 
 intents:
   - ask_comparison:

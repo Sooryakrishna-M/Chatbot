@@ -10,7 +10,6 @@
 from typing import Any, Text, Dict, List
 
 # Import the necessary RASA and PDF libraries
-import rasa_sdk 
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 import fitz  # PyMuPDF for reading the PDF

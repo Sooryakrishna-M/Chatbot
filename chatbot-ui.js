@@ -25,7 +25,7 @@ function init() {
 			<div class='chatbot-img'>
 				<img src='${botLogoPath}' alt='Chat Bot image' class='bot-img'> 
 			</div>
-			<h3 class='bot-title'>Covid Bot</h3>
+			<h3 class='bot-title'>Sanhitha Law ChatBot</h3>
 			<button class = "expand-chat-window" ><img src="./icons/open_fullscreen.png" class="icon" ></button>
 		</div>
 

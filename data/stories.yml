@@ -15,9 +15,3 @@ stories:
   - slot_was_set:
     - section_number: null
   - action: action_provide_comparison
-
-stories:
-  - story: compare law section
-    steps:
-      - intent: ask_comparison
-      - action: action_compare_law

@@ -1,17 +1,29 @@
 version: "3.1"
 
 stories:
-- story: greet and goodbye
+- story: greet and ask help
   steps:
-  - intent: greet
-  - action: utter_greet
-  - intent: goodbye
-  - action: utter_goodbye
+    - intent: greet
+    - action: utter_greet
+    - action: utter_ask_help
 
-- story: ask for law section
+- story: report a crime
   steps:
-  - intent: compare_law_section
-  - action: action_ask_section
-  - slot_was_set:
-    - section_number: null
-  - action: action_provide_comparison
+    - intent: report_crime
+    - action: utter_ask_crime_type
+    - slot_was_set:
+      - crime_type: "assault"
+    - action: action_report_crime
+
+- story: ask for IPC-BNS comparison
+  steps:
+    - intent: ask_ipc_bns_comparison
+    - action: utter_ask_section_comparison
+    - slot_was_set:
+      - section_number: "375"
+    - action: action_compare_law
+
+- story: say goodbye
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye

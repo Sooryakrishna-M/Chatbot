@@ -1,58 +1,57 @@
-# This files contains your custom actions which can be used to run
-# custom Python code.
-#
-# See this guide on how to implement these action:
-# https://rasa.com/docs/rasa/custom-actions
-
-
-# This is a simple example for a custom action which utters "Hello World!"
-
-from typing import Any, Text, Dict, List
-
-# Import the necessary RASA and PDF libraries
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-import fitz  # PyMuPDF for reading the PDF
 
+# Example dictionary for BNS and IPC comparison
+BNS_IPC_COMPARISON = {
+    "375": {
+        "bns": "BNS 63 (Rape) - Age of consent raised to 18.",
+        "ipc": "IPC 375 (Rape) - Earlier allowed consent for minors in some cases."
+    },
+    "302": {
+        "bns": "BNS 103 (Murder) - No major changes.",
+        "ipc": "IPC 302 (Murder) - Life imprisonment or death penalty."
+    },
+    "376": {
+        "bns": "BNS 66 (Rape in special cases) - Enhanced punishment.",
+        "ipc": "IPC 376 (Rape) - Standard punishment."
+    }
+}
 
-# Function to extract all text from the PDF
-def extract_comparison_data(pdf_path="C:\Sooryakrishna M\Samhitha\IPC-BNS_Table.pdf"):
-    doc = fitz.open(pdf_path="C:\Sooryakrishna M\Samhitha\IPC-BNS_Table.pdf")
-    text = ""
+class ActionReportCrime(Action):
+    def name(self):
+        return "action_report_crime"
 
-    # Extract text from each page
-    for page in doc:
-        text += page.get_text()
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        crime_type = tracker.get_slot('crime_type').lower()
 
-    return text
+        crime_suggestions = {
+            "abuse": ("BNS Section 63", "IPC Section 375"),
+            "theft": ("BNS Section 96", "IPC Section 378"),
+            "assault": ("BNS Section 115", "IPC Section 351")
+        }
 
-# Function to search for a specific section in the extracted text
-def get_law_section(comparison_text, section_number):
-    # Check if the section number exists in the text
-    if section_number in comparison_text:
-        # Extract relevant section info, adjust range as needed
-        section_data = comparison_text[comparison_text.find(section_number):].split("\n")[0:10]
-        return "\n".join(section_data)
-    else:
-        return "Section not found in the comparison."
+        if crime_type in crime_suggestions:
+            bns_section, ipc_section = crime_suggestions[crime_type]
+            dispatcher.utter_message(
+                text=f"For {crime_type}, under BNS, you can file a case under Section {bns_section} and under IPC under Section {ipc_section}."
+            )
+        else:
+            dispatcher.utter_message(text=f"No legal suggestions available for {crime_type}.")
+        
+        return []
 
-# Custom action to retrieve law section comparison
 class ActionCompareLaw(Action):
-
-    def name(self) -> str:
+    def name(self):
         return "action_compare_law"
 
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: dict) -> list:
-        section_number = tracker.get_slot("section_number")  # Retrieve section number slot from user input
-        pdf_path = "/path/to/your/IPC-BNS_Table.pdf"  # Path to your PDF file
-
-        # Extract comparison text from PDF
-        comparison_text = extract_comparison_data(pdf_path)
-
-        # Retrieve the comparison result for the given section number
-        comparison_result = get_law_section(comparison_text, section_number)
-
-        # Send the result back to the user
-        dispatcher.utter_message(text=f"The comparison for section {section_number} is:\n{comparison_result}")
-
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        section_number = tracker.get_slot('section_number')
+        if section_number in BNS_IPC_COMPARISON:
+            comparison = BNS_IPC_COMPARISON[section_number]
+            dispatcher.utter_message(
+                text=f"The comparison for section {section_number} is:\nBNS: {comparison['bns']}\nIPC: {comparison['ipc']}"
+            )
+        else:
+            dispatcher.utter_message(text="No comparison available for this section.")
+        
         return []

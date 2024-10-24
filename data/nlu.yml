@@ -3,29 +3,34 @@ version: "3.1"
 nlu:
 - intent: greet
   examples: |
-    - hi
-    - hello
-    - hey
-    - good morning
-    - good evening
+    - Hi
+    - Hello
+    - Hey there
+    - Good morning
+
+- intent: ask_help
+  examples: |
+    - Can you help me with a legal case?
+    - I need help understanding a law
+    - Can you assist me with legal advice?
+
+- intent: report_crime
+  examples: |
+    - I was assaulted
+    - I need to report a crime
+    - There was theft
+    - I was harassed
+    - I want to report abuse
+
+- intent: ask_ipc_bns_comparison
+  examples: |
+    - What is the difference between section 302 in IPC and BNS?
+    - Compare IPC and BNS for section 375
+    - Can you tell me the changes in section 376?
 
 - intent: goodbye
   examples: |
-    - bye
-    - goodbye
-    - see you
-    - talk to you later
-
-- intent: compare_law_section
-  examples: |
-    - What has changed in section 375?
-    - Can you show me changes in section 34?
-    - Tell me about the changes in section [section_number]
-
-
-
-intents:
-  - ask_comparison:
-      examples: |
-        - What is the comparison for section 375?
-        - Compare section 420 for me.
+    - Goodbye
+    - Bye
+    - See you later
+    - Thanks, bye

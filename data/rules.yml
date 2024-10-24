@@ -1,4 +1,13 @@
 version: "3.1"
 
 rules:
+- rule: Greet and ask for help
+  steps:
+    - intent: greet
+    - action: utter_greet
+    - action: utter_ask_help
 
+- rule: Goodbye rule
+  steps:
+    - intent: goodbye
+    - action: utter_goodbye

@@ -1,11 +1,15 @@
 version: "3.1"
 
 rules:
-- rule: Greet and ask for help
+- rule: Greet and respond
   steps:
     - intent: greet
     - action: utter_greet
-    - action: utter_ask_help
+
+- rule: Handle any question
+  steps:
+    - intent: ask_any_question
+    - action: action_answer_legal_question
 
 - rule: Goodbye rule
   steps:

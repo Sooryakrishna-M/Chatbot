@@ -2,46 +2,32 @@ version: "3.1"
 
 intents:
   - greet
-  - ask_help
-  - report_crime
-  - ask_ipc_bns_comparison
+  - ask_any_question
   - goodbye
 
 entities:
-  - crime_type
   - section_number
+  - topic
 
 slots:
   section_number:
     type: text
-    influence_conversation: false
     mappings:
       - type: from_text
-  crime_type:
+  topic:
     type: text
-    influence_conversation: false
     mappings:
       - type: from_text
 
 responses:
   utter_greet:
-    - text: "Hello! I am Samhitha, your legal assistant. How can I help you today?"
-
-  utter_ask_help:
-    - text: "Do you need help reporting a crime or understanding legal differences between BNS and IPC?"
-
-  utter_ask_crime_type:
-    - text: "Please provide the type of crime you're reporting."
-
-  utter_crime_suggestion:
-    - text: "For {crime_type}, under BNS, you can file a case under Section {bns_section} and IPC under Section {ipc_section}."
+    - text: "Hello! I am Samhitha, your legal assistant. How can I assist you today?"
 
   utter_goodbye:
-    - text: "Goodbye! Stay safe, and feel free to reach out for legal assistance anytime."
+    - text: "Goodbye! Reach out if you need legal assistance again."
 
-  utter_ask_section_comparison:
-    - text: "Please provide the section number you're interested in comparing between IPC and BNS."
+  utter_no_info:
+    - text: "I'm sorry, I couldn't find specific legal information on that topic or section."
 
 actions:
-  - action_report_crime
-  - action_compare_law
+  - action_answer_legal_question

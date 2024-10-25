@@ -1,57 +1,99 @@
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 
-# Example dictionary for BNS and IPC comparison
-BNS_IPC_COMPARISON = {
-    "375": {
-        "bns": "BNS 63 (Rape) - Age of consent raised to 18.",
-        "ipc": "IPC 375 (Rape) - Earlier allowed consent for minors in some cases."
+# Define a dictionary with keywords to help identify relevant topics and sections
+BNS_SECTIONS = {
+    "punishments": {
+        "description": "BNS defines various forms of punishment such as death, life imprisonment, fines, and community service.",
+        "keywords": ["punishment", "fine", "death penalty", "community service", "imprisonment"],
+        "details": {
+            "death": "Punishable by the state for the most severe crimes.",
+            "life_imprisonment": "Can be imposed for crimes of high severity, served as rigorous or simple imprisonment.",
+            "community_service": "Aimed at rehabilitation for less severe crimes."
+        }
     },
-    "302": {
-        "bns": "BNS 103 (Murder) - No major changes.",
-        "ipc": "IPC 302 (Murder) - Life imprisonment or death penalty."
+    "offences_against_women_and_children": {
+        "keywords": ["rape", "dowry death", "assault", "women", "children"],
+        "sections": {
+            "63": {
+                "title": "Rape",
+                "bns": "Defines and criminalizes rape with age of consent at 18, with enhanced punishment."
+            },
+            "74": {
+                "title": "Assault with Intent to Outrage Modesty",
+                "bns": "Defines assault with intent to harm modesty of a woman."
+            },
+            "80": {
+                "title": "Dowry Death",
+                "bns": "Defines dowry-related offences with strict punishment for resulting deaths."
+            }
+        }
     },
-    "376": {
-        "bns": "BNS 66 (Rape in special cases) - Enhanced punishment.",
-        "ipc": "IPC 376 (Rape) - Standard punishment."
+    "criminal_force_and_assault": {
+        "keywords": ["force", "assault", "criminal force"],
+        "sections": {
+            "128": {
+                "title": "Definition of Force",
+                "bns": "Defines the use of force as any motion imposed on another person without consent."
+            },
+            "130": {
+                "title": "Definition of Assault",
+                "bns": "An action intended to cause apprehension of harm without physical contact."
+            },
+            "131": {
+                "title": "Punishment for Assault",
+                "bns": "Punishes assault with imprisonment or fine, varies with intent and harm caused."
+            }
+        }
+    },
+    "kidnapping_and_abduction": {
+        "keywords": ["kidnapping", "abduction", "ransom"],
+        "sections": {
+            "137": {
+                "title": "Kidnapping from Lawful Guardianship",
+                "bns": "Kidnapping a minor or person of unsound mind from their lawful guardian without consent."
+            },
+            "138": {
+                "title": "Abduction",
+                "bns": "Forcing or deceiving a person to move from one place to another against their will."
+            },
+            "140": {
+                "title": "Kidnapping for Ransom",
+                "bns": "Kidnapping with intent to demand ransom or harm, with severe punishments."
+            }
+        }
     }
 }
 
-class ActionReportCrime(Action):
+class ActionAnswerLegalQuestion(Action):
     def name(self):
-        return "action_report_crime"
+        return "action_answer_legal_question"
 
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
-        crime_type = tracker.get_slot('crime_type').lower()
+        user_message = tracker.latest_message.get('text').lower()
+        response = None
 
-        crime_suggestions = {
-            "abuse": ("BNS Section 63", "IPC Section 375"),
-            "theft": ("BNS Section 96", "IPC Section 378"),
-            "assault": ("BNS Section 115", "IPC Section 351")
-        }
+        # Match user message with topics and sections using keywords
+        for topic, content in BNS_SECTIONS.items():
+            # Check if any keyword matches the user message
+            if any(keyword in user_message for keyword in content.get("keywords", [])):
+                # Respond with general topic information if available
+                response = f"Here's information on {topic.capitalize()}:\n{content['description']}\n"
+                break
+            
+            # Check specific sections within each topic if keywords are found
+            for section, details in content.get("sections", {}).items():
+                if section in user_message or any(keyword in user_message for keyword in content["keywords"]):
+                    response = (
+                        f"Section {section} - {details['title']}:\nBNS: {details['bns']}"
+                    )
+                    break
+            if response:
+                break
 
-        if crime_type in crime_suggestions:
-            bns_section, ipc_section = crime_suggestions[crime_type]
-            dispatcher.utter_message(
-                text=f"For {crime_type}, under BNS, you can file a case under Section {bns_section} and under IPC under Section {ipc_section}."
-            )
-        else:
-            dispatcher.utter_message(text=f"No legal suggestions available for {crime_type}.")
-        
-        return []
+        # Default response if no match is found
+        if not response:
+            response = "I'm sorry, I couldn't find specific legal information on that topic or section."
 
-class ActionCompareLaw(Action):
-    def name(self):
-        return "action_compare_law"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
-        section_number = tracker.get_slot('section_number')
-        if section_number in BNS_IPC_COMPARISON:
-            comparison = BNS_IPC_COMPARISON[section_number]
-            dispatcher.utter_message(
-                text=f"The comparison for section {section_number} is:\nBNS: {comparison['bns']}\nIPC: {comparison['ipc']}"
-            )
-        else:
-            dispatcher.utter_message(text="No comparison available for this section.")
-        
+        dispatcher.utter_message(text=response)
         return []

@@ -1,27 +1,12 @@
 version: "3.1"
 
 stories:
-- story: greet and ask help
+- story: greet and ask question
   steps:
     - intent: greet
     - action: utter_greet
-    - action: utter_ask_help
-
-- story: report a crime
-  steps:
-    - intent: report_crime
-    - action: utter_ask_crime_type
-    - slot_was_set:
-      - crime_type: "assault"
-    - action: action_report_crime
-
-- story: ask for IPC-BNS comparison
-  steps:
-    - intent: ask_ipc_bns_comparison
-    - action: utter_ask_section_comparison
-    - slot_was_set:
-      - section_number: "375"
-    - action: action_compare_law
+    - intent: ask_any_question
+    - action: action_answer_legal_question
 
 - story: say goodbye
   steps:

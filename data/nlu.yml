@@ -8,29 +8,21 @@ nlu:
     - Hey there
     - Good morning
 
-- intent: ask_help
+- intent: ask_any_question
   examples: |
-    - Can you help me with a legal case?
-    - I need help understanding a law
-    - Can you assist me with legal advice?
-
-- intent: report_crime
-  examples: |
-    - I was assaulted
-    - I need to report a crime
-    - There was theft
-    - I was harassed
-    - I want to report abuse
-
-- intent: ask_ipc_bns_comparison
-  examples: |
-    - What is the difference between section 302 in IPC and BNS?
-    - Compare IPC and BNS for section 375
-    - Can you tell me the changes in section 376?
+    - What is section 302 in BNS?
+    - Explain section 63
+    - Can you tell me about dowry death?
+    - Tell me about assault
+    - What is the punishment for theft?
+    - Explain rape laws in BNS
+    - Tell me about criminal force in IPC
+    - How does BNS define kidnapping?
+    - What is the punishment for abduction?
 
 - intent: goodbye
   examples: |
     - Goodbye
     - Bye
     - See you later
-    - Thanks, bye
+    - Thank you, bye

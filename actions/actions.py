@@ -220,7 +220,7 @@ class ActionAnswerLegalQuestion(Action):
 
         # Default response if no specific information is found
         if not response:
-            response = "I'm sorry, I couldn't find specific legal information on that topic."
+            response = "I'm sorry, I couldn't find specific legal information about that topic."
 
         dispatcher.utter_message(text=response)
         return []

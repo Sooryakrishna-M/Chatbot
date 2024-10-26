@@ -10,13 +10,13 @@ nlu:
 
 - intent: ask_any_question
   examples: |
-    - What is section 302 in BNS?
-    - Explain section 63
+    - What is clause 63 in BNS?
+    - Explain clause 130
     - Can you tell me about dowry death?
     - Tell me about assault
     - What is the punishment for theft?
     - Explain rape laws in BNS
-    - Tell me about criminal force in IPC
+    - Tell me about criminal force in BNS
     - How does BNS define kidnapping?
     - What is the punishment for abduction?
 
@@ -25,5 +25,4 @@ nlu:
     - Goodbye
     - Bye
     - See you later
-    - Thank you, bye
-    - Later
+    - Thanks, bye

@@ -6,11 +6,11 @@ intents:
   - goodbye
 
 entities:
-  - section_number
+  - clause_number
   - topic
 
 slots:
-  section_number:
+  clause_number:
     type: text
     mappings:
       - type: from_text
@@ -27,7 +27,7 @@ responses:
     - text: "Goodbye! Reach out if you need legal assistance again."
 
   utter_no_info:
-    - text: "I'm sorry, I couldn't find specific legal information on that topic or section."
+    - text: "I'm sorry, I couldn't find specific legal information on that topic or clause."
 
 actions:
   - action_answer_legal_question
